@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { apiClient } from '../../api/client';
+import { PencilLoader } from '../ui/loader-1';
 import type { Submission } from '../../types';
 import { ScoringModal } from './ScoringModal';
 
@@ -56,7 +57,9 @@ export const EvaluatorDashboard: React.FC = () => {
 
       {/* Queue Grid */}
       {isLoading ? (
-        <div className="py-12 text-center text-xs text-slate-500">Loading evaluation queue...</div>
+        <div className="py-20 flex flex-col items-center justify-center">
+          <PencilLoader size={150} text="Loading evaluation queue..." />
+        </div>
       ) : submissions.length === 0 ? (
         <div className="bg-white p-10 rounded-2xl text-center border border-slate-200 text-slate-500 text-xs shadow-xs">
           No team submissions available for evaluation yet.

@@ -4,6 +4,7 @@ import { ProblemCard } from './ProblemCard';
 import { ProblemFilter } from './ProblemFilter';
 import { ProblemDetailModal } from './ProblemDetailModal';
 import { apiClient } from '../../api/client';
+import { PencilLoader } from '../ui/loader-1';
 import { FileSearch } from 'lucide-react';
 
 export const ProblemList: React.FC = () => {
@@ -107,18 +108,8 @@ export const ProblemList: React.FC = () => {
 
       {/* Problem Cards Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div key={n} className="bg-white rounded-2xl p-6 h-64 animate-pulse border border-slate-200 flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="h-4 bg-slate-200 rounded w-1/3"></div>
-                <div className="h-6 bg-slate-200 rounded w-3/4"></div>
-                <div className="h-4 bg-slate-200 rounded w-full"></div>
-                <div className="h-4 bg-slate-200 rounded w-5/6"></div>
-              </div>
-              <div className="h-8 bg-slate-200 rounded w-1/4"></div>
-            </div>
-          ))}
+        <div className="py-24 flex flex-col items-center justify-center">
+          <PencilLoader size={160} text="Loading Problem Statements..." />
         </div>
       ) : problems.length === 0 ? (
         <div className="bg-white p-12 rounded-3xl text-center border border-slate-200 space-y-4 max-w-lg mx-auto shadow-sm">

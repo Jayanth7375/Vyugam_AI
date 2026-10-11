@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Trophy } from 'lucide-react';
 import { apiClient } from '../../api/client';
+import { PencilLoader } from '../ui/loader-1';
 import { ManageProblemsModal } from './ManageProblemsModal';
 
 export const AdminDashboard: React.FC = () => {
@@ -28,8 +29,8 @@ export const AdminDashboard: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="py-20 text-center text-xs text-slate-400">
-        Loading Admin Analytics & Control Dashboard...
+      <div className="py-24 flex flex-col items-center justify-center">
+        <PencilLoader size={160} text="Loading Admin Analytics & Control Dashboard..." />
       </div>
     );
   }

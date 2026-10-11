@@ -23,15 +23,26 @@ import { LoginPage } from './components/ui/sign-in-page';
 import { CountdownTimer } from './components/common/CountdownTimer';
 import { IntroVideoModal } from './components/common/IntroVideoModal';
 import { ChatBotWidget } from './components/common/ChatBotWidget';
+import { useAuth } from './context/AuthContext';
+import { PencilLoader } from './components/ui/loader-1';
 import { BookOpen, Layers, HelpCircle, Info, ArrowRight } from 'lucide-react';
 
 const MainAppContent: React.FC = () => {
+  const { isLoading: isAuthLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<string>('home');
   const [showIntroVideo, setShowIntroVideo] = useState<boolean>(true);
   const [authModalState, setAuthModalState] = useState<{ isOpen: boolean; mode: 'login' | 'register' }>({
     isOpen: false,
     mode: 'login'
   });
+
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen w-screen bg-[#fbf9fe] flex flex-col items-center justify-center p-6 select-none">
+        <PencilLoader size={180} text="Entering Vyugam Arena..." />
+      </div>
+    );
+  }
 
   // Synchronize state with browser URL hash
   useEffect(() => {

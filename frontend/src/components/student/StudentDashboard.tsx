@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, FileText, Plus } from 'lucide-react';
 import { apiClient } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
+import { PencilLoader } from '../ui/loader-1';
 import type { Team } from '../../types';
 import { CreateTeamModal } from './CreateTeamModal';
 import { IdeaSubmissionForm } from './IdeaSubmissionForm';
@@ -53,9 +54,8 @@ export const StudentDashboard: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="py-20 text-center space-y-3">
-        <div className="w-8 h-8 border-4 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-        <p className="text-xs text-slate-400">Loading Student Portal Dashboard...</p>
+      <div className="py-24 flex flex-col items-center justify-center">
+        <PencilLoader size={160} text="Loading Student Portal Dashboard..." />
       </div>
     );
   }
