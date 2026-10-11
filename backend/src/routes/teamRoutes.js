@@ -10,8 +10,9 @@ router.get('/my-team', authenticateToken, (req, res) => {
   try {
     const userId = req.user.id;
     let team = db.prepare(`
-      SELECT t.*, ps.title as problem_title, ps.category as problem_category
+      SELECT t.*, u.name as leader_name, ps.title as problem_title, ps.category as problem_category
       FROM teams t
+      LEFT JOIN users u ON t.leader_id = u.id
       LEFT JOIN problem_statements ps ON t.problem_statement_id = ps.id
       WHERE t.leader_id = ?
     `).get(userId);
@@ -20,8 +21,9 @@ router.get('/my-team', authenticateToken, (req, res) => {
       const memberRecord = db.prepare('SELECT team_id FROM team_members WHERE email = ?').get(req.user.email);
       if (memberRecord) {
         team = db.prepare(`
-          SELECT t.*, ps.title as problem_title, ps.category as problem_category
+          SELECT t.*, u.name as leader_name, ps.title as problem_title, ps.category as problem_category
           FROM teams t
+          LEFT JOIN users u ON t.leader_id = u.id
           LEFT JOIN problem_statements ps ON t.problem_statement_id = ps.id
           WHERE t.id = ?
         `).get(memberRecord.team_id);

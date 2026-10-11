@@ -76,20 +76,25 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenA
           {isAuthenticated && user ? (
             <div className="flex items-center gap-2">
               <div 
-                className="flex items-center gap-1.5 text-xs font-bold text-slate-800 bg-slate-100/90 px-2.5 py-1.5 rounded-none border border-slate-200 shadow-2xs select-none"
+                className="flex items-center gap-2 text-xs font-bold text-slate-800 bg-white/95 px-3 py-1.5 rounded-none border border-purple-200 shadow-2xs select-none"
                 title={`${user.name} (${user.role.toUpperCase()})`}
               >
                 <div className="w-5 h-5 rounded-none bg-purple-100 border border-purple-200 text-[#2e1065] flex items-center justify-center shrink-0">
                   <User className="w-3 h-3 stroke-[2.5]" />
                 </div>
-                <span>{(() => {
-                  const clean = user.name.replace(/\(.*?\)/g, '').trim();
-                  const parts = clean.split(/\s+/);
-                  if (parts.length > 1 && (parts[0].endsWith('.') || ['Dr', 'Prof', 'Mr', 'Ms', 'Mrs'].includes(parts[0]))) {
-                    return parts[1];
-                  }
-                  return parts[0] || 'User';
-                })()}</span>
+                <div className="flex items-center gap-1.5 leading-none">
+                  <span className="text-slate-600 font-sans font-semibold text-xs">Hello,</span>
+                  <span className="font-serif italic font-normal tracking-tight vyugam-shimmer-text text-sm sm:text-base">
+                    {(() => {
+                      const clean = user.name.replace(/\(.*?\)/g, '').trim();
+                      const parts = clean.split(/\s+/);
+                      if (parts.length > 1 && (parts[0].endsWith('.') || ['Dr', 'Prof', 'Mr', 'Ms', 'Mrs'].includes(parts[0]))) {
+                        return parts[1];
+                      }
+                      return parts[0] || 'User';
+                    })()}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={logout}

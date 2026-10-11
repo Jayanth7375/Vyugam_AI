@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Users, FileText, Plus } from 'lucide-react';
 import { apiClient } from '../../api/client';
+import { useAuth } from '../../context/AuthContext';
 import type { Team } from '../../types';
 import { CreateTeamModal } from './CreateTeamModal';
 import { IdeaSubmissionForm } from './IdeaSubmissionForm';
 
 export const StudentDashboard: React.FC = () => {
+  const { user } = useAuth();
   const [teamData, setTeamData] = useState<Team | null>(null);
   const [hasTeam, setHasTeam] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,6 +33,24 @@ export const StudentDashboard: React.FC = () => {
     fetchTeam();
   }, []);
 
+  const leaderDisplayName = (() => {
+    const leaderMember = teamData?.members?.find((m: any) => 
+      m.is_leader || 
+      (m.role_in_team && m.role_in_team.toLowerCase().includes('lead')) ||
+      (m.role && m.role.toLowerCase().includes('lead'))
+    );
+    if (leaderMember?.name) {
+      return leaderMember.name.replace(/\(.*?\)/g, '').trim();
+    }
+    if ((teamData as any)?.leader_name) {
+      return (teamData as any).leader_name.replace(/\(.*?\)/g, '').trim();
+    }
+    if (user?.name) {
+      return user.name.replace(/\(.*?\)/g, '').trim();
+    }
+    return 'Leader';
+  })();
+
   if (isLoading) {
     return (
       <div className="py-20 text-center space-y-3">
@@ -49,7 +69,13 @@ export const StudentDashboard: React.FC = () => {
           </div>
 
           <div className="max-w-lg mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif">Register Your Hackathon Team</h2>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-sans font-bold text-slate-800 tracking-tight flex items-center justify-center gap-2.5">
+              <span>Hello,</span>
+              <span className="font-serif italic font-normal tracking-tight vyugam-shimmer-text text-3xl sm:text-4xl">
+                {leaderDisplayName}
+              </span>
+            </h1>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-serif">Register Your Hackathon Team</h2>
             <p className="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
               Form a team of 4 students to select problem statements, collaborate on code repositories, and submit project proposals for Vyugam AI evaluation.
             </p>
@@ -77,22 +103,32 @@ export const StudentDashboard: React.FC = () => {
     <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       {/* Top Banner */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xs relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="bg-white p-6 sm:p-7 rounded-none border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xs relative overflow-hidden">
+        <div className="absolute right-0 top-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="space-y-2 relative z-10">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-[#1755a7] bg-blue-50 border border-blue-200 px-3 py-1 rounded-full uppercase">
+            <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 border border-purple-200 px-3 py-1 rounded-none uppercase">
               Team Portal
             </span>
-            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-none">
               Status: {teamData?.status?.toUpperCase()}
             </span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-[#0a2540]">
-            Team {teamData?.name}
-          </h2>
-          <p className="text-xs text-slate-500">
+
+          <div className="pt-0.5 space-y-0.5">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-sans font-bold text-slate-800 tracking-tight flex flex-wrap items-baseline gap-2.5">
+              <span>Hello,</span>
+              <span className="font-serif italic font-normal tracking-tight vyugam-shimmer-text text-3xl sm:text-4xl md:text-5xl">
+                {leaderDisplayName}
+              </span>
+            </h1>
+            <h2 className="text-xl md:text-2xl font-black text-[#2e1065] font-sans">
+              Team {teamData?.name}
+            </h2>
+          </div>
+
+          <p className="text-xs text-slate-500 font-medium">
             {teamData?.college} | Track: <strong className="text-slate-800">{teamData?.track}</strong>
           </p>
         </div>
