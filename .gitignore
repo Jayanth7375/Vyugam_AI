@@ -1,0 +1,81 @@
+# ==========================================
+# VYUGAM AI HACKATHON - ROOT GITIGNORE
+# ==========================================
+
+# Dependencies
+node_modules/
+*/node_modules/
+.pnpm-store/
+
+# Environment Variables & Secrets (CRITICAL: NEVER COMMIT REAL KEYS)
+.env
+.env.*
+!.env.example
+*.env
+*.env.local
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Production Build Outputs
+dist/
+*/dist/
+build/
+*/build/
+dist-ssr/
+.vite/
+*.tsbuildinfo
+
+# SQLite Database Files & WAL Journals (Local DB only, Supabase is cloud)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+backend/*.db
+backend/*.db-wal
+backend/*.db-shm
+vyugam_hackathon.db*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Python Bytecode & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+*.egg-info/
+eggs/
+*.egg
+
+# Operating System & IDE Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary Files & User Uploads
+temp/
+tmp/
+scratch/
+uploads/

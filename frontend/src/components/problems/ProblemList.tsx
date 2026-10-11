@@ -1,0 +1,158 @@
+import React, { useEffect, useState } from 'react';
+import type { ProblemStatement } from '../../types';
+import { ProblemCard } from './ProblemCard';
+import { ProblemFilter } from './ProblemFilter';
+import { ProblemDetailModal } from './ProblemDetailModal';
+import { apiClient } from '../../api/client';
+import { FileSearch } from 'lucide-react';
+
+export const ProblemList: React.FC = () => {
+  const [problems, setProblems] = useState<ProblemStatement[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [domains, setDomains] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Filters state
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('All');
+  const [domain, setDomain] = useState('All');
+  const [complexity, setComplexity] = useState('All');
+
+  // Modal state
+  const [selectedProblem, setSelectedProblem] = useState<ProblemStatement | null>(null);
+
+  const fetchMeta = async () => {
+    try {
+      const res = await apiClient.get('/problems/meta/categories');
+      if (res.data.success) {
+        setCategories(res.data.meta.categories || []);
+        setDomains(res.data.meta.domains || []);
+      }
+    } catch (err) {
+      console.error('Meta error:', err);
+    }
+  };
+
+  const fetchProblems = async () => {
+    try {
+      setIsLoading(true);
+      const params: any = {};
+      if (category !== 'All') params.category = category;
+      if (domain !== 'All') params.domain = domain;
+      if (complexity !== 'All') params.complexity = complexity;
+      if (search.trim()) params.search = search.trim();
+
+      const res = await apiClient.get('/problems', { params });
+      if (res.data.success) {
+        setProblems(res.data.problems);
+      }
+    } catch (err) {
+      console.error('Error fetching problems:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMeta();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchProblems();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [search, category, domain, complexity]);
+
+  const handleReset = () => {
+    setSearch('');
+    setCategory('All');
+    setDomain('All');
+    setComplexity('All');
+  };
+
+  return (
+    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {/* Header */}
+      <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-[#0a2540] tracking-tight font-serif">
+          Explore <span className="text-[#1755a7]">Problem Statements</span> & Innovate
+        </h2>
+        <p className="text-sm text-slate-600">
+          Filter through real world AI, cybersecurity, IoT, and hardware problems published for Vyugam AI Hackathon 2026. Select a problem statement to register your proposal.
+        </p>
+      </div>
+
+      {/* Filter Component */}
+      <ProblemFilter
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+        domain={domain}
+        setDomain={setDomain}
+        complexity={complexity}
+        setComplexity={setComplexity}
+        categories={categories}
+        domains={domains}
+        onReset={handleReset}
+      />
+
+      {/* Results Meta Info */}
+      <div className="flex items-center justify-between text-xs text-slate-500 font-semibold mb-6 px-1">
+        <span>Showing <strong className="text-[#1755a7] font-mono text-sm">{problems.length}</strong> Problem Statements</span>
+        <span>Vyugam AI Standard Difficulty & Scoring Guidelines Applied</span>
+      </div>
+
+      {/* Problem Cards Grid */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <div key={n} className="bg-white rounded-2xl p-6 h-64 animate-pulse border border-slate-200 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="h-4 bg-slate-200 rounded w-1/3"></div>
+                <div className="h-6 bg-slate-200 rounded w-3/4"></div>
+                <div className="h-4 bg-slate-200 rounded w-full"></div>
+                <div className="h-4 bg-slate-200 rounded w-5/6"></div>
+              </div>
+              <div className="h-8 bg-slate-200 rounded w-1/4"></div>
+            </div>
+          ))}
+        </div>
+      ) : problems.length === 0 ? (
+        <div className="bg-white p-12 rounded-3xl text-center border border-slate-200 space-y-4 max-w-lg mx-auto shadow-sm">
+          <FileSearch className="w-12 h-12 text-slate-400 mx-auto" />
+          <h3 className="text-lg font-bold text-slate-800">No Matching Problem Statements Found</h3>
+          <p className="text-xs text-slate-500">
+            Try adjusting your search terms, domain, or category filter to discover available challenges.
+          </p>
+          <button
+            onClick={handleReset}
+            className="px-4 py-2 bg-[#1755a7] text-white font-bold rounded-xl text-xs hover:bg-blue-700 transition-colors"
+          >
+            Clear Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {problems.map((prob) => (
+            <ProblemCard
+              key={prob.id}
+              problem={prob}
+              onSelect={(p) => setSelectedProblem(p)}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Problem Detail Modal */}
+      <ProblemDetailModal
+        problem={selectedProblem}
+        onClose={() => setSelectedProblem(null)}
+        onSelectSuccess={() => fetchProblems()}
+      />
+
+    </div>
+  );
+};

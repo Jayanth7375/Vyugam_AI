@@ -1,0 +1,38 @@
+{
+  "name": "vyugam-hackathon-backend",
+  "version": "1.0.0",
+  "description": "High performance backend API for Vyugam AI Hackathon",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/seed.js",
+    "sync:supabase": "node src/scripts/syncToSupabase.js"
+  },
+  "keywords": [
+    "hackathon",
+    "vyugam-ai",
+    "vyugam",
+    "express",
+    "sqlite"
+  ],
+  "author": "Vyugam Dev Team",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^11.10.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "node-cache": "^5.1.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
