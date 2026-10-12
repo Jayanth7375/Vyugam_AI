@@ -18,7 +18,7 @@ function initDb() {
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
       role TEXT NOT NULL CHECK(role IN ('student', 'evaluator', 'admin')),
-      college TEXT DEFAULT 'Vyugam Institute of Technology',
+      college TEXT DEFAULT 'Sri Eshwar College of Engineering',
       department TEXT DEFAULT 'Computer Science & Engineering',
       phone TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP

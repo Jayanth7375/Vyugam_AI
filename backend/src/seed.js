@@ -55,7 +55,7 @@ function seedDatabase() {
     db.prepare(`
       INSERT INTO teams (id, name, leader_id, college, track, problem_statement_id, status)
       VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(teamId, 'Neural Knights', 'user-student-01', 'Vyugam Institute of Technology', 'Software', 'VYUGAM-001', 'submitted');
+    `).run(teamId, 'Neural Knights', 'user-student-01', 'Sri Eshwar College of Engineering', 'Software', 'VYUGAM-001', 'submitted');
 
     // Add team members
     const insertMember = db.prepare(`

@@ -128,8 +128,10 @@ export const StudentDashboard: React.FC = () => {
             </h2>
           </div>
 
-          <p className="text-xs text-slate-500 font-medium">
-            {teamData?.college} | Track: <strong className="text-slate-800">{teamData?.track}</strong>
+          <p className="text-xs text-slate-500 font-medium flex items-center gap-2">
+            <span>Sri Eshwar College of Engineering</span>
+            <span>&bull;</span>
+            <span>Track: <strong className="text-slate-800">{teamData?.track}</strong></span>
           </p>
         </div>
 

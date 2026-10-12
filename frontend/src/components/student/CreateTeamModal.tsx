@@ -12,7 +12,7 @@ interface CreateTeamModalProps {
 export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClose, onSuccess }) => {
   const { user } = useAuth();
   const [teamName, setTeamName] = useState('');
-  const [college, setCollege] = useState(user?.college || 'Sri Eshwar College of Engineering');
+  const [college] = useState(user?.college || 'Sri Eshwar College of Engineering');
   const [track, setTrack] = useState('Software');
   const [members, setMembers] = useState<Array<{ name: string; email: string; role_in_team: string; gender: string; college_id_no: string; year_of_study: string }>>([
     { name: '', email: '', role_in_team: 'Full Stack Developer', gender: 'Female', college_id_no: '', year_of_study: '3rd Year' },
@@ -112,28 +112,18 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
                 className="w-full bg-slate-50 border border-slate-300 rounded-none px-3 py-2 text-slate-900 focus:border-[#2e1065] focus:ring-1 focus:ring-[#2e1065] focus:outline-none"
               />
             </div>
-            <div>
-              <label className="block text-slate-900 font-bold mb-1">College / Institute *</label>
-              <input
-                type="text"
-                required
-                value={college}
-                onChange={(e) => setCollege(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-none px-3 py-2 text-slate-900 focus:border-[#2e1065] focus:ring-1 focus:ring-[#2e1065] focus:outline-none"
-              />
-            </div>
-          </div>
 
-          <div>
-            <label className="block text-slate-900 font-bold mb-1">Track Category</label>
-            <select
-              value={track}
-              onChange={(e) => setTrack(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-none px-3 py-2 text-slate-900 focus:border-[#2e1065] focus:ring-1 focus:ring-[#2e1065] focus:outline-none"
-            >
-              <option value="Software">Software Track</option>
-              <option value="Hardware">Hardware & Embedded Track</option>
-            </select>
+            <div>
+              <label className="block text-slate-900 font-bold mb-1">Track Category</label>
+              <select
+                value={track}
+                onChange={(e) => setTrack(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-none px-3 py-2 text-slate-900 focus:border-[#2e1065] focus:ring-1 focus:ring-[#2e1065] focus:outline-none"
+              >
+                <option value="Software">Software Track</option>
+                <option value="Hardware">Hardware & Embedded Track</option>
+              </select>
+            </div>
           </div>
 
           {/* Team Leader Badge */}
