@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, ArrowDown, Play } from 'lucide-react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { ScrollReveal } from '../common/ScrollReveal';
 import { VyugamTitleEffect } from '../ui/VyugamTitleEffect';
 import { CountdownTimer } from '../common/CountdownTimer';
@@ -7,12 +7,11 @@ import { CountdownTimer } from '../common/CountdownTimer';
 interface HeroSectionProps {
   setActiveTab: (tab: string) => void;
   onOpenAuthModal?: (mode: 'login' | 'register') => void;
-  onWatchIntro?: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ setActiveTab, onWatchIntro }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ setActiveTab }) => {
   return (
-    <section className="relative min-h-[88vh] flex flex-col justify-center bg-transparent overflow-hidden border-b border-slate-200/80 pt-8 pb-16">
+    <section id="home" className="relative min-h-[88vh] flex flex-col justify-center bg-transparent overflow-hidden border-b border-slate-200/80 pt-8 pb-16 scroll-mt-20">
       
       {/* Subtle Atmospheric Vignette Lighting */}
       <div className="absolute top-1/3 -right-20 w-[550px] h-[550px] bg-purple-100/40 rounded-full blur-3xl pointer-events-none" />
@@ -50,16 +49,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ setActiveTab, onWatchI
                 <span>VIEW PROBLEM STATEMENTS</span>
                 <ArrowDown className="w-4 h-4 text-purple-600" />
               </button>
-
-              {onWatchIntro && (
-                <button
-                  onClick={onWatchIntro}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-purple-50 hover:bg-purple-100 text-[#2e1065] text-xs sm:text-sm font-mono font-black tracking-wider uppercase border border-purple-200 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-2xs rounded-none"
-                >
-                  <Play className="w-3.5 h-3.5 fill-[#2e1065]" />
-                  <span>WATCH INTRO</span>
-                </button>
-              )}
             </div>
           </ScrollReveal>
 
